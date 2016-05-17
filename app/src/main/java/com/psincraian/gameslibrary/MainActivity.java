@@ -3,6 +3,7 @@ package com.psincraian.gameslibrary;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,6 +17,8 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +45,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        fragmentManager = getSupportFragmentManager();
+
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
+            fragmentManager.beginTransaction()
                     .add(R.id.main_fragment_container, new GamesFragment())
                     .commit();
         }
@@ -88,9 +93,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_games) {
-            // Handle the camera action
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_container, new GamesFragment())
+                    .addToBackStack(null)
+                    .commit();
         } else if (id == R.id.nav_characters) {
-
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_container, new CharactersFragment())
+                    .addToBackStack(null)
+                    .commit();
         } else if (id == R.id.nav_missions) {
 
         } else if (id == R.id.nav_objects) {

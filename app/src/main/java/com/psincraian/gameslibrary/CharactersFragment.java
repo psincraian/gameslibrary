@@ -9,11 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
-public class GamesFragment extends Fragment {
+public class CharactersFragment extends Fragment {
 
-    private ArrayAdapter<String> gamesAdapter;
+    private ArrayAdapter<String> charactersAdapter;
 
-    public GamesFragment() {
+    public CharactersFragment() {
         // Required empty public constructor
     }
 
@@ -26,14 +26,14 @@ public class GamesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_games, container, false);
+        View view = inflater.inflate(R.layout.fragment_characters, container, false);
 
-        gamesAdapter = new ArrayAdapter<String>(
-                getContext(), android.R.layout.simple_list_item_1, new String[]{"Game 1", "Game 2", "Game 3"}
+        charactersAdapter = new ArrayAdapter<String>(
+                getContext(), android.R.layout.simple_list_item_1, new String[]{"Character 1", "Character 2", "Character 3"}
         );
 
-        ListView listView = (ListView) view.findViewById(R.id.listview_games);
-        listView.setAdapter(gamesAdapter);
+        ListView listView = (ListView) view.findViewById(R.id.listview_characters);
+        listView.setAdapter(charactersAdapter);
 
         return view;
     }
