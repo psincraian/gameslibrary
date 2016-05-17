@@ -2,6 +2,7 @@ package com.psincraian.gameslibrary;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
-public class CharactersFragment extends Fragment {
+public class CharactersFragment extends Fragment implements MainActivity.MainActivityInterface {
 
     private ArrayAdapter<String> charactersAdapter;
 
@@ -36,5 +37,11 @@ public class CharactersFragment extends Fragment {
         listView.setAdapter(charactersAdapter);
 
         return view;
+    }
+
+    // TODO
+    @Override
+    public void addPressed() {
+        Log.e("Implement this method");
     }
 }

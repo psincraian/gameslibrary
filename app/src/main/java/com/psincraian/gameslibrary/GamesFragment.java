@@ -1,5 +1,6 @@
 package com.psincraian.gameslibrary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
-public class GamesFragment extends Fragment {
+public class GamesFragment extends Fragment implements MainActivity.MainActivityInterface {
 
     private ArrayAdapter<String> gamesAdapter;
 
@@ -36,5 +37,11 @@ public class GamesFragment extends Fragment {
         listView.setAdapter(gamesAdapter);
 
         return view;
+    }
+
+    @Override
+    public void addPressed() {
+        Intent intent = new Intent(getActivity(), AddGameActivity.class);
+        startActivity(intent);
     }
 }

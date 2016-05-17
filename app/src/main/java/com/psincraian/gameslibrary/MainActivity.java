@@ -3,6 +3,7 @@ package com.psincraian.gameslibrary;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private MainActivityInterface mainActivityInterface;
     private FragmentManager fragmentManager;
 
     @Override
@@ -31,8 +33,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                mainActivityInterface.addPressed();
             }
         });
 
@@ -48,8 +49,10 @@ public class MainActivity extends AppCompatActivity
         fragmentManager = getSupportFragmentManager();
 
         if (savedInstanceState == null) {
+            Fragment fragment = new GamesFragment();
+            mainActivityInterface = (MainActivityInterface) fragment;
             fragmentManager.beginTransaction()
-                    .add(R.id.main_fragment_container, new GamesFragment())
+                    .add(R.id.main_fragment_container, fragment)
                     .commit();
         }
     }
@@ -93,13 +96,17 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_games) {
+            Fragment fragment = new GamesFragment();
+            mainActivityInterface = (MainActivityInterface) fragment;
             fragmentManager.beginTransaction()
-                    .replace(R.id.main_fragment_container, new GamesFragment())
+                    .replace(R.id.main_fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_characters) {
+            Fragment fragment = new CharactersFragment();
+            mainActivityInterface = (MainActivityInterface) fragment;
             fragmentManager.beginTransaction()
-                    .replace(R.id.main_fragment_container, new CharactersFragment())
+                    .replace(R.id.main_fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_missions) {
@@ -115,5 +122,9 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public interface MainActivityInterface {
+        public void addPressed();
     }
 }
