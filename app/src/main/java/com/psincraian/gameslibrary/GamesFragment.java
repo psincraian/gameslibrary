@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.psincraian.gameslibrary.models.Game;
+
+import java.util.List;
+
 
 public class GamesFragment extends Fragment implements MainActivity.MainActivityInterface {
 
@@ -30,7 +34,7 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
         View view = inflater.inflate(R.layout.fragment_games, container, false);
 
         gamesAdapter = new ArrayAdapter<String>(
-                getContext(), android.R.layout.simple_list_item_1, new String[]{"Game 1", "Game 2", "Game 3"}
+                getContext(), android.R.layout.simple_list_item_1, getGameNames()
         );
 
         ListView listView = (ListView) view.findViewById(R.id.listview_games);
@@ -43,5 +47,16 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
     public void addPressed() {
         Intent intent = new Intent(getActivity(), AddGameActivity.class);
         startActivity(intent);
+    }
+
+    private String[] getGameNames() {
+        List<Game> games = Game.listAll(Game.class);
+        String[] result = new String[games.size()];
+
+        for (int i = 0; i < games.size(); i++) {
+            result[i] = games.get(i).getTitle();
+        }
+
+        return result;
     }
 }

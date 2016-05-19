@@ -28,7 +28,6 @@ public class AddGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_game);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        SugarContext.init(this);
 
         gameTitle = (EditText) findViewById(R.id.input_game_title);
         gameStudio = (EditText) findViewById(R.id.input_game_studio);
@@ -41,11 +40,5 @@ public class AddGameActivity extends AppCompatActivity {
         Game game = new Game(title, studio);
         game.save();
         Toast.makeText(this, "SAVED", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        SugarContext.terminate();
     }
 }
