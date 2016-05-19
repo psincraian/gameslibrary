@@ -1,5 +1,6 @@
 package com.psincraian.gameslibrary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 public class CharactersFragment extends Fragment implements MainActivity.MainActivityInterface {
 
     private static final String CLASS_NAME = CharactersFragment.class.getName();
+    static final int ADD_CHARACTER_REQUEST = 1;
     private ArrayAdapter<String> charactersAdapter;
 
     public CharactersFragment() {
@@ -40,9 +42,9 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
         return view;
     }
 
-    // TODO
     @Override
     public void addPressed() {
-        Log.e(CLASS_NAME,"Implement this method");
+        Intent intent = new Intent(getActivity(), AddCharactersActivity.class);
+        startActivityForResult(intent, ADD_CHARACTER_REQUEST);
     }
 }

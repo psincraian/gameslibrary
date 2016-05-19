@@ -33,6 +33,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.psincraian.gameslibrary.MainActivity"/>
         </activity>
+        <activity
+            android:name=".AddCharactersActivity"
+            android:label="@string/title_activity_add_game"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.psincraian.gameslibrary.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
