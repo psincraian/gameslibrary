@@ -1,5 +1,7 @@
 package com.psincraian.gameslibrary;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +21,7 @@ import com.psincraian.gameslibrary.models.Game;
 
 public class AddGameActivity extends AppCompatActivity {
 
+    public static final String INTENT_EXTRA_TITLE = "title";
     EditText gameTitle;
     EditText gameStudio;
 
@@ -39,6 +42,9 @@ public class AddGameActivity extends AppCompatActivity {
 
         Game game = new Game(title, studio);
         game.save();
-        Toast.makeText(this, "SAVED", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.putExtra(INTENT_EXTRA_TITLE, game.getTitle());
+        setResult(Activity.RESULT_OK, intent);
+        finish();
     }
 }

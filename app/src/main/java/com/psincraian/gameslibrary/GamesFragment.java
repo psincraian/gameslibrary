@@ -1,5 +1,6 @@
 package com.psincraian.gameslibrary;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,13 +12,14 @@ import android.widget.ListView;
 
 import com.psincraian.gameslibrary.models.Game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class GamesFragment extends Fragment implements MainActivity.MainActivityInterface {
 
+    static final int ADD_GAME_REQUEST = 1;
     private ArrayAdapter<String> gamesAdapter;
-
     public GamesFragment() {
         // Required empty public constructor
     }
@@ -44,17 +46,29 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
     }
 
     @Override
-    public void addPressed() {
-        Intent intent = new Intent(getActivity(), AddGameActivity.class);
-        startActivity(intent);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ADD_GAME_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                String title = data.getStringExtra(AddGameActivity.INTENT_EXTRA_TITLE);
+                gamesAdapter.add(title);
+            }
+        }
     }
 
-    private String[] getGameNames() {
+    @Override
+    public void addPressed() {
+        Intent intent = new Intent(getActivity(), AddGameActivity.class);
+        startActivityForResult(intent, ADD_GAME_REQUEST);
+    }
+
+    private List<String> getGameNames() {
         List<Game> games = Game.listAll(Game.class);
-        String[] result = new String[games.size()];
+        List<String> result = new ArrayList<>();
 
         for (int i = 0; i < games.size(); i++) {
-            result[i] = games.get(i).getTitle();
+            result.add(games.get(i).getTitle());
         }
 
         return result;
