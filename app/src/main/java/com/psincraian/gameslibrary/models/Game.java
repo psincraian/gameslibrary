@@ -7,13 +7,28 @@ import com.orm.SugarRecord;
  */
 public class Game extends SugarRecord {
 
-    public String title;
+    String title;
+    String studio;
 
-    public Game(String title) {
+    public Game() {
+
+    }
+
+    public Game(String title, String studio) {
         this.title = title;
+        this.studio = studio;
     }
 
     public String getTitle() {
         return title;
     }
+
+    public String getStudio() {
+        return studio;
+    }
+
+    public void setStudio(String studio) {
+        this.studio = studio;
+    }
+
 }

@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 public class CharactersFragment extends Fragment implements MainActivity.MainActivityInterface {
 
+    private static final String CLASS_NAME = CharactersFragment.class.getName();
     private ArrayAdapter<String> charactersAdapter;
 
     public CharactersFragment() {
@@ -42,6 +43,6 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
     // TODO
     @Override
     public void addPressed() {
-        Log.e("Implement this method");
+        Log.e(CLASS_NAME,"Implement this method");
     }
 }
