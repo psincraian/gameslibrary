@@ -22,7 +22,7 @@ import com.psincraian.gameslibrary.models.Game;
 
 public class AddGameActivity extends AppCompatActivity {
 
-    public static final String INTENT_EXTRA_TITLE = "title";
+    public static final String INTENT_EXTRA_GAME = "game";
     EditText gameTitle;
     EditText gameStudio;
 
@@ -56,7 +56,7 @@ public class AddGameActivity extends AppCompatActivity {
         Game game = new Game(title, studio);
         game.save();
         Intent intent = new Intent();
-        intent.putExtra(INTENT_EXTRA_TITLE, game.getTitle());
+        intent.putExtra(INTENT_EXTRA_GAME, game);
         setResult(Activity.RESULT_OK, intent);
         finish();
     }

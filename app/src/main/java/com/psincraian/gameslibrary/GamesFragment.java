@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.psincraian.gameslibrary.adapters.GamesAdapter;
 import com.psincraian.gameslibrary.models.Game;
 
 import java.util.ArrayList;
@@ -19,7 +22,8 @@ import java.util.List;
 public class GamesFragment extends Fragment implements MainActivity.MainActivityInterface {
 
     static final int ADD_GAME_REQUEST = 1;
-    private ArrayAdapter<String> gamesAdapter;
+    private GamesAdapter gamesAdapter;
+
     public GamesFragment() {
         // Required empty public constructor
     }
@@ -35,11 +39,11 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_games, container, false);
 
-        gamesAdapter = new ArrayAdapter<String>(
-                getContext(), android.R.layout.simple_list_item_1, getGameNames()
-        );
+        gamesAdapter = new GamesAdapter(getGames());
 
-        ListView listView = (ListView) view.findViewById(R.id.listview_games);
+        RecyclerView listView = (RecyclerView) view.findViewById(R.id.listview_games);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        listView.setLayoutManager(layoutManager);
         listView.setAdapter(gamesAdapter);
 
         return view;
@@ -51,8 +55,8 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
 
         if (requestCode == ADD_GAME_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
-                String title = data.getStringExtra(AddGameActivity.INTENT_EXTRA_TITLE);
-                gamesAdapter.add(title);
+                Game game = data.getParcelableExtra(AddGameActivity.INTENT_EXTRA_GAME);
+                gamesAdapter.add(game);
             }
         }
     }
@@ -63,14 +67,8 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
         startActivityForResult(intent, ADD_GAME_REQUEST);
     }
 
-    private List<String> getGameNames() {
+    private List<Game> getGames() {
         List<Game> games = Game.listAll(Game.class);
-        List<String> result = new ArrayList<>();
-
-        for (int i = 0; i < games.size(); i++) {
-            result.add(games.get(i).getTitle());
-        }
-
-        return result;
+        return games;
     }
 }

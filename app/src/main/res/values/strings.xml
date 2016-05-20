@@ -18,6 +18,5 @@
     <string name="hint_character_name">Name</string>
     <string name="hint_character_race">Race</string>
     <string name="hint_character_level">Level</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="title_activity_add_game">AddGameActivity</string>
+    <string name="title_activity_add_game">Add Game</string>
 </resources>
