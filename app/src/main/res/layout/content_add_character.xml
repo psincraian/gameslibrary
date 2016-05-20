@@ -22,7 +22,32 @@
             android:id="@+id/input_character_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_game_title" />
+            android:hint="@string/hint_character_name" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_character_race"
+            android:id="@+id/input_character_race"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="@string/hint_character_level"
+            android:id="@+id/input_character_level"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -33,7 +58,7 @@
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_game_studio"
+            android:hint="@string/hint_game_title"
             android:id="@+id/input_character_game_title"/>
 
     </android.support.design.widget.TextInputLayout>
@@ -42,7 +67,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        
         <View
             android:layout_width="0dp"
             android:layout_height="wrap_content"
