@@ -9,9 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.psincraian.gameslibrary.adapters.GameViewHolder;
 import com.psincraian.gameslibrary.adapters.GamesAdapter;
 import com.psincraian.gameslibrary.models.Game;
 
@@ -19,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GamesFragment extends Fragment implements MainActivity.MainActivityInterface {
+public class GamesFragment extends Fragment implements MainActivity.MainActivityInterface, GamesAdapter.OnGameClick {
 
     static final int ADD_GAME_REQUEST = 1;
     private GamesAdapter gamesAdapter;
@@ -39,7 +42,7 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_games, container, false);
 
-        gamesAdapter = new GamesAdapter(getGames());
+        gamesAdapter = new GamesAdapter(getGames(), this);
 
         RecyclerView listView = (RecyclerView) view.findViewById(R.id.listview_games);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -70,5 +73,10 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
     private List<Game> getGames() {
         List<Game> games = Game.listAll(Game.class);
         return games;
+    }
+
+    @Override
+    public void onGameClick(Game game) {
+        Toast.makeText(getContext(), "Game: " + game.getTitle() + " clicked", Toast.LENGTH_SHORT).show();
     }
 }
