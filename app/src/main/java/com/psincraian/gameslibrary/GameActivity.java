@@ -28,7 +28,9 @@ public class GameActivity extends AppCompatActivity {
 
     public static final String EXTRA_GAME = "extra_game";
     private static final String CLASS_NAME = GameActivity.class.getName();
+
     private Game game;
+    private MainActivity.MainActivityInterface mainActivityInterface;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -75,8 +77,7 @@ public class GameActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                mainActivityInterface.addPressed();
             }
         });
 
@@ -158,10 +159,11 @@ public class GameActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
                     CharactersFragment fragment = new CharactersFragment();
+                    mainActivityInterface = (MainActivity.MainActivityInterface) fragment;
                     Bundle args = new Bundle();
                     Log.d(CLASS_NAME, "### NAME: " + game.getTitle());
                     Log.d(CLASS_NAME, "### ID: " + String.valueOf(game.getId()));
-                    args.putLong(CharactersFragment.EXTRA_GAME_ID, game.getId());
+                    args.putParcelable(CharactersFragment.EXTRA_GAME, game);
                     fragment.setArguments(args);
                     return fragment;
                 default:

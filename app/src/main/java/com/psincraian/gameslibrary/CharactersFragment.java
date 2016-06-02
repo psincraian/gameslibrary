@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.psincraian.gameslibrary.models.Character;
+import com.psincraian.gameslibrary.models.Game;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +21,11 @@ import java.util.List;
 public class CharactersFragment extends Fragment implements MainActivity.MainActivityInterface {
 
     public static final int ADD_CHARACTER_REQUEST = 1;
-    public static final String EXTRA_GAME_ID = "extra_game_id";
+    public static final String EXTRA_GAME = "extra_game_id";
     private static final String CLASS_NAME = CharactersFragment.class.getName();
 
     private ArrayAdapter<String> charactersAdapter;
-    private long gameId;
+    private Game game;
 
     public CharactersFragment() {
         // Required empty public constructor
@@ -43,11 +44,10 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
 
         Bundle args = getArguments();
         if (args != null)
-            gameId = args.getLong(EXTRA_GAME_ID, -1);
+            game = args.getParcelable(EXTRA_GAME);
         else
-            gameId = -1;
+            game = null;
 
-        Log.d(CLASS_NAME, "Game ID: " + Long.toString(gameId));
         charactersAdapter = new ArrayAdapter<String>(
                 getContext(), android.R.layout.simple_list_item_1, getCharactersNames()
         );
@@ -73,16 +73,18 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
     @Override
     public void addPressed() {
         Intent intent = new Intent(getActivity(), AddCharactersActivity.class);
+        if (game != null)
+            intent.putExtra(AddCharactersActivity.INTENT_EXTRA_GAME_NAME, game.getTitle());
         startActivityForResult(intent, ADD_CHARACTER_REQUEST);
     }
 
     private List<String> getCharactersNames() {
         List<Character> characters = null;
 
-        if (gameId == -1)
+        if (game == null)
             characters = Character.listAll(Character.class);
         else
-            characters = Character.find(Character.class, "game = ?", Long.toString(gameId));
+            characters = Character.find(Character.class, "game = ?", Long.toString(game.getId()));
 
         List<String> result = new ArrayList<>();
 

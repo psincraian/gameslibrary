@@ -22,6 +22,7 @@ import java.util.Set;
 public class AddCharactersActivity extends AppCompatActivity {
 
     public static final String INTENT_EXTRA_CHARACTER_NAME = "name";
+    public static final String INTENT_EXTRA_GAME_NAME = "extra_game";
     EditText characterName;
     EditText characterLevel;
     EditText characterRace;
@@ -42,6 +43,10 @@ public class AddCharactersActivity extends AppCompatActivity {
         ArrayAdapter<String> studioAdapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_list_item_1, getGameTitles()
         );
+
+        Intent arguments = getIntent();
+        if (arguments != null && arguments.hasExtra(INTENT_EXTRA_GAME_NAME))
+            characterGame.setText(arguments.getStringExtra(INTENT_EXTRA_GAME_NAME));
 
         characterGame.setAdapter(studioAdapter);
     }
