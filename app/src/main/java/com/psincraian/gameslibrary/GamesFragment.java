@@ -77,6 +77,8 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
 
     @Override
     public void onGameClick(Game game) {
-        Toast.makeText(getContext(), "Game: " + game.getTitle() + " clicked", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), GameActivity.class);
+        intent.putExtra(GameActivity.EXTRA_GAME, game);
+        startActivity(intent);
     }
 }

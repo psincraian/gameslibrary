@@ -19,4 +19,6 @@
     <string name="hint_character_race">Race</string>
     <string name="hint_character_level">Level</string>
     <string name="title_activity_add_game">Add Game</string>
+    <string name="title_activity_game">GameActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
