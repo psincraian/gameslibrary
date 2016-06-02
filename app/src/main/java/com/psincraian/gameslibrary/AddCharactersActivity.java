@@ -21,7 +21,7 @@ import java.util.Set;
 
 public class AddCharactersActivity extends AppCompatActivity {
 
-    public static final String INTENT_EXTRA_CHARACTER_NAME = "name";
+    public static final String INTENT_EXTRA_CHARACTER = "extra_character";
     public static final String INTENT_EXTRA_GAME_NAME = "extra_game";
     EditText characterName;
     EditText characterLevel;
@@ -72,7 +72,7 @@ public class AddCharactersActivity extends AppCompatActivity {
         Character character = new Character(title, race, level, game);
         character.save();
         Intent intent = new Intent();
-        intent.putExtra(INTENT_EXTRA_CHARACTER_NAME, character.getName());
+        intent.putExtra(INTENT_EXTRA_CHARACTER, character);
         setResult(Activity.RESULT_OK, intent);
         finish();
     }

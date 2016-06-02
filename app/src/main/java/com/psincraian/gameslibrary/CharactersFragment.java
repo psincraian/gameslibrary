@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.psincraian.gameslibrary.adapters.CharactersAdapter;
 import com.psincraian.gameslibrary.models.Character;
 import com.psincraian.gameslibrary.models.Game;
 
@@ -18,13 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CharactersFragment extends Fragment implements MainActivity.MainActivityInterface {
+public class CharactersFragment extends Fragment implements MainActivity.MainActivityInterface, CharactersAdapter.OnCharacterClick {
 
     public static final int ADD_CHARACTER_REQUEST = 1;
     public static final String EXTRA_GAME = "extra_game_id";
     private static final String CLASS_NAME = CharactersFragment.class.getName();
 
-    private ArrayAdapter<String> charactersAdapter;
+    private CharactersAdapter charactersAdapter;
     private Game game;
 
     public CharactersFragment() {
@@ -48,11 +52,11 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
         else
             game = null;
 
-        charactersAdapter = new ArrayAdapter<String>(
-                getContext(), android.R.layout.simple_list_item_1, getCharactersNames()
-        );
+        charactersAdapter = new CharactersAdapter(getCharactersNames(), this);
 
-        ListView listView = (ListView) view.findViewById(R.id.listview_characters);
+        RecyclerView listView = (RecyclerView) view.findViewById(R.id.listview_characters);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        listView.setLayoutManager(layoutManager);
         listView.setAdapter(charactersAdapter);
 
         return view;
@@ -64,8 +68,8 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
 
         if (requestCode == ADD_CHARACTER_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
-                String name = data.getStringExtra(AddCharactersActivity.INTENT_EXTRA_CHARACTER_NAME);
-                charactersAdapter.add(name);
+                Character character = data.getParcelableExtra(AddCharactersActivity.INTENT_EXTRA_CHARACTER);
+                charactersAdapter.add(character);
             }
         }
     }
@@ -78,7 +82,7 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
         startActivityForResult(intent, ADD_CHARACTER_REQUEST);
     }
 
-    private List<String> getCharactersNames() {
+    private List<Character> getCharactersNames() {
         List<Character> characters = null;
 
         if (game == null)
@@ -86,12 +90,11 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
         else
             characters = Character.find(Character.class, "game = ?", Long.toString(game.getId()));
 
-        List<String> result = new ArrayList<>();
+        return characters;
+    }
 
-        for (int i = 0; i < characters.size(); i++) {
-            result.add(characters.get(i).getName());
-        }
-
-        return result;
+    @Override
+    public void onCharacterClick(Character character) {
+        Toast.makeText(getContext(), "Character: " + character.getName() + " clicker", Toast.LENGTH_SHORT).show();
     }
 }
