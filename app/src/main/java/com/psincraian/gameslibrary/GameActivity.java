@@ -61,7 +61,7 @@ public class GameActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), game);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -147,15 +147,23 @@ public class GameActivity extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        private Game game;
+        public SectionsPagerAdapter(FragmentManager fm, Game game) {
             super(fm);
+            this.game = game;
         }
 
         @Override
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new CharactersFragment();
+                    CharactersFragment fragment = new CharactersFragment();
+                    Bundle args = new Bundle();
+                    Log.d(CLASS_NAME, "### NAME: " + game.getTitle());
+                    Log.d(CLASS_NAME, "### ID: " + String.valueOf(game.getId()));
+                    args.putLong(CharactersFragment.EXTRA_GAME_ID, game.getId());
+                    fragment.setArguments(args);
+                    return fragment;
                 default:
                     return PlaceholderFragment.newInstance(position + 2);
             }

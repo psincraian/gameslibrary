@@ -36,6 +36,7 @@ public class Game extends SugarRecord implements Parcelable {
 
 
     protected Game(Parcel in) {
+        setId(in.readLong());
         title = in.readString();
         studio = in.readString();
     }
@@ -47,6 +48,7 @@ public class Game extends SugarRecord implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(getId());
         dest.writeString(title);
         dest.writeString(studio);
     }

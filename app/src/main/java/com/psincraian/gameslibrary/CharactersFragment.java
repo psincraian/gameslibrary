@@ -19,9 +19,12 @@ import java.util.List;
 
 public class CharactersFragment extends Fragment implements MainActivity.MainActivityInterface {
 
+    public static final int ADD_CHARACTER_REQUEST = 1;
+    public static final String EXTRA_GAME_ID = "extra_game_id";
     private static final String CLASS_NAME = CharactersFragment.class.getName();
-    static final int ADD_CHARACTER_REQUEST = 1;
+
     private ArrayAdapter<String> charactersAdapter;
+    private long gameId;
 
     public CharactersFragment() {
         // Required empty public constructor
@@ -38,6 +41,13 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_characters, container, false);
 
+        Bundle args = getArguments();
+        if (args != null)
+            gameId = args.getLong(EXTRA_GAME_ID, -1);
+        else
+            gameId = -1;
+
+        Log.d(CLASS_NAME, "Game ID: " + Long.toString(gameId));
         charactersAdapter = new ArrayAdapter<String>(
                 getContext(), android.R.layout.simple_list_item_1, getCharactersNames()
         );
@@ -67,7 +77,13 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
     }
 
     private List<String> getCharactersNames() {
-        List<Character> characters = Character.listAll(Character.class);
+        List<Character> characters = null;
+
+        if (gameId == -1)
+            characters = Character.listAll(Character.class);
+        else
+            characters = Character.find(Character.class, "game = ?", Long.toString(gameId));
+
         List<String> result = new ArrayList<>();
 
         for (int i = 0; i < characters.size(); i++) {
