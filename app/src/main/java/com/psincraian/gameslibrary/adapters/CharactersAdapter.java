@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.psincraian.gameslibrary.R;
 import com.psincraian.gameslibrary.models.Character;
 import com.psincraian.gameslibrary.models.Game;
 
@@ -26,14 +27,15 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharacterViewHolder>
     @Override
     public CharacterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_1, parent, false);
+                .inflate(R.layout.item_character, parent, false);
         CharacterViewHolder vh = new CharacterViewHolder(v);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(CharacterViewHolder holder, int position) {
-        holder.mTextView.setText(characters.get(position).getName());
+        holder.name.setText(characters.get(position).getName());
+        holder.avatar.setImageBitmap(characters.get(position).getAvatar());
         holder.bind(characters.get(position), listener);
     }
 

@@ -1,5 +1,6 @@
 package com.psincraian.gameslibrary.models;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -13,20 +14,22 @@ public class Character extends SugarRecord implements Parcelable{
 
     private static final String CLASS_NAME = Character.class.getSimpleName();
 
-    String name;
-    String race;
-    int level;
-    Game game;
+    private String name;
+    private String race;
+    private int level;
+    private Game game;
+    private Bitmap avatar;
 
     public Character() {
 
     }
 
-    public Character(String name, String race, int level, Game game) {
+    public Character(String name, String race, int level, Game game, Bitmap avatar) {
         this.name = name;
         this.race = race;
         this.level = level;
         this.game = game;
+        this.avatar = avatar;
     }
 
     public String getName() {
@@ -43,6 +46,10 @@ public class Character extends SugarRecord implements Parcelable{
 
     public void setRace(String race) {
         this.race = race;
+    }
+
+    public Bitmap getAvatar() {
+        return this.avatar;
     }
 
     public int getLevel() {
@@ -66,6 +73,7 @@ public class Character extends SugarRecord implements Parcelable{
         name = in.readString();
         race = in.readString();
         level = in.readInt();
+        avatar = in.readParcelable(Bitmap.class.getClassLoader());
         game = in.readParcelable(Game.class.getClassLoader());
         Log.d(CLASS_NAME, "ID: " + getId());
         Log.d(CLASS_NAME, "NAME: " + name);
@@ -84,6 +92,7 @@ public class Character extends SugarRecord implements Parcelable{
         dest.writeString(name);
         dest.writeString(race);
         dest.writeInt(level);
+        dest.writeParcelable(avatar, 0);
         dest.writeParcelable(game, 0);
     }
 

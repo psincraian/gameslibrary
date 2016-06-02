@@ -2,8 +2,10 @@ package com.psincraian.gameslibrary.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.psincraian.gameslibrary.R;
 import com.psincraian.gameslibrary.models.Character;
 
 /**
@@ -11,12 +13,14 @@ import com.psincraian.gameslibrary.models.Character;
  */
 public class CharacterViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView mTextView;
+    public TextView name;
+    public ImageView avatar;
 
 
     public CharacterViewHolder(View view) {
         super(view);
-        mTextView = (TextView) view.findViewById(android.R.id.text1);
+        name = (TextView) view.findViewById(R.id.name);
+        avatar = (ImageView) view.findViewById(R.id.avatar);
     }
 
     public void bind(final Character character, final CharactersAdapter.OnCharacterClick listener) {

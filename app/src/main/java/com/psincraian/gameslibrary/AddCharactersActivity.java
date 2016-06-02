@@ -2,6 +2,8 @@ package com.psincraian.gameslibrary;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,22 +12,28 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.psincraian.gameslibrary.models.Character;
 import com.psincraian.gameslibrary.models.Game;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AddCharactersActivity extends AppCompatActivity {
+public class AddCharactersActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String INTENT_EXTRA_CHARACTER = "extra_character";
     public static final String INTENT_EXTRA_GAME_NAME = "extra_game";
+    public static final int PICK_PHOTO_FOR_AVATAR = 2;
     EditText characterName;
     EditText characterLevel;
     EditText characterRace;
+    ImageButton imageButton;
+    Bitmap avatar;
     AutoCompleteTextView characterGame;
 
     @Override
@@ -36,6 +44,9 @@ public class AddCharactersActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        avatar = BitmapFactory.decodeResource(getResources(), R.drawable.ic_person_black_48dp);
+        imageButton = (ImageButton) findViewById(R.id.avatar);
+        imageButton.setImageBitmap(avatar);
         characterName = (EditText) findViewById(R.id.input_character_name);
         characterLevel = (EditText) findViewById(R.id.input_character_level);
         characterRace = (EditText) findViewById(R.id.input_character_race);
@@ -43,6 +54,8 @@ public class AddCharactersActivity extends AppCompatActivity {
         ArrayAdapter<String> studioAdapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_list_item_1, getGameTitles()
         );
+
+        imageButton.setOnClickListener(this);
 
         Intent arguments = getIntent();
         if (arguments != null && arguments.hasExtra(INTENT_EXTRA_GAME_NAME))
@@ -69,7 +82,7 @@ public class AddCharactersActivity extends AppCompatActivity {
         String gameTitle = characterGame.getText().toString();
         Game game = Game.find(Game.class, "title = ?", gameTitle).get(0);
 
-        Character character = new Character(title, race, level, game);
+        Character character = new Character(title, race, level, game, avatar);
         character.save();
         Intent intent = new Intent();
         intent.putExtra(INTENT_EXTRA_CHARACTER, character);
@@ -86,5 +99,31 @@ public class AddCharactersActivity extends AppCompatActivity {
         }
 
         return new ArrayList<>(names);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_PHOTO_FOR_AVATAR && resultCode == Activity.RESULT_OK) {
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                avatar = BitmapFactory.decodeStream(inputStream);
+                imageButton.setImageBitmap(avatar);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.avatar:
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_PHOTO_FOR_AVATAR);
+                break;
+        }
     }
 }
