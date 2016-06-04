@@ -38,7 +38,7 @@ public class GamesAdapter extends RecyclerView.Adapter<GameViewHolder> {
     @Override
     public void onBindViewHolder(GameViewHolder holder, int position) {
         holder.mTextView.setText(games.get(position).getTitle());
-        holder.bind(games.get(position), listener);
+        holder.bind(position, games.get(position), listener);
     }
 
     public void add(Game game) {
@@ -46,7 +46,7 @@ public class GamesAdapter extends RecyclerView.Adapter<GameViewHolder> {
         notifyItemInserted(games.size());
     }
 
-    public void delete(int position) {
+    public void remove(int position) {
         games.remove(position);
         notifyItemRemoved(position);
     }
@@ -58,5 +58,6 @@ public class GamesAdapter extends RecyclerView.Adapter<GameViewHolder> {
 
     public interface OnGameClick {
         void onGameClick(Game game);
+        void onGameLongClick(int position, Game game);
     }
 }

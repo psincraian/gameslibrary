@@ -47,6 +47,7 @@ public class Game extends SugarRecord implements Parcelable {
         for (Character c : characters)
             c.delete();
 
+        save();
         return true;
     }
 

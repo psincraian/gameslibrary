@@ -71,7 +71,7 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
     }
 
     private List<Game> getGames() {
-        List<Game> games = Game.listAll(Game.class);
+        List<Game> games = Game.find(Game.class, "deleted = ?", Integer.toString(0));
         return games;
     }
 
@@ -80,5 +80,11 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
         Intent intent = new Intent(getActivity(), GameActivity.class);
         intent.putExtra(GameActivity.EXTRA_GAME, game);
         startActivity(intent);
+    }
+
+    @Override
+    public void onGameLongClick(int position, Game game) {
+        game.delete();
+        gamesAdapter.remove(position);
     }
 }

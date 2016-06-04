@@ -22,10 +22,18 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         mTextView = (TextView) view.findViewById(android.R.id.text1);
     }
 
-    public void bind(final Game game, final GamesAdapter.OnGameClick listener) {
+    public void bind(final int position, final Game game, final GamesAdapter.OnGameClick listener) {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 listener.onGameClick(game);
+            }
+        });
+
+        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                listener.onGameLongClick(position, game);
+                return false;
             }
         });
     }
