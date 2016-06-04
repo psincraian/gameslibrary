@@ -25,11 +25,14 @@ import java.util.List;
 public class CharactersFragment extends Fragment implements MainActivity.MainActivityInterface, CharactersAdapter.OnCharacterClick {
 
     public static final int ADD_CHARACTER_REQUEST = 1;
+    public static final int EDIT_CHARACTER_REQUESt = 2;
+
     public static final String EXTRA_GAME = "extra_game_id";
     private static final String CLASS_NAME = CharactersFragment.class.getName();
 
     private CharactersAdapter charactersAdapter;
     private Game game;
+    private int editPositionCharacter;
 
     public CharactersFragment() {
         // Required empty public constructor
@@ -71,6 +74,11 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
                 Character character = data.getParcelableExtra(AddCharactersActivity.INTENT_EXTRA_CHARACTER);
                 charactersAdapter.add(character);
             }
+        } else if (requestCode == EDIT_CHARACTER_REQUESt) {
+            if (resultCode == Activity.RESULT_OK) {
+                Character character = data.getParcelableExtra(AddCharactersActivity.INTENT_EXTRA_CHARACTER);
+                charactersAdapter.edit(character, editPositionCharacter);
+            }
         }
     }
 
@@ -94,7 +102,10 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
     }
 
     @Override
-    public void onCharacterClick(Character character) {
-        Toast.makeText(getContext(), "Character: " + character.getName() + " clicker", Toast.LENGTH_SHORT).show();
+    public void onCharacterClick(int position, Character character) {
+        editPositionCharacter = position;
+        Intent intent = new Intent(getActivity(), AddCharactersActivity.class);
+        intent.putExtra(AddCharactersActivity.INTENT_EXTRA_CHARACTER, character);
+        startActivityForResult(intent, EDIT_CHARACTER_REQUESt);
     }
 }

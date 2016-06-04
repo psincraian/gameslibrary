@@ -36,12 +36,17 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharacterViewHolder>
     public void onBindViewHolder(CharacterViewHolder holder, int position) {
         holder.name.setText(characters.get(position).getName());
         holder.avatar.setImageBitmap(characters.get(position).getAvatar());
-        holder.bind(characters.get(position), listener);
+        holder.bind(position, characters.get(position), listener);
     }
 
     public void add(Character item) {
         characters.add(item);
         notifyItemInserted(characters.size());
+    }
+
+    public void edit(Character item, int position) {
+        characters.set(position, item);
+        notifyItemChanged(position);
     }
 
     @Override
@@ -50,6 +55,6 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharacterViewHolder>
     }
 
     public interface OnCharacterClick {
-        public void onCharacterClick(Character character);
+        public void onCharacterClick(int position, Character character);
     }
 }

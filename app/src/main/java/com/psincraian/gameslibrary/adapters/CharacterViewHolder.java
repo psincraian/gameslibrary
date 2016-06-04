@@ -23,10 +23,10 @@ public class CharacterViewHolder extends RecyclerView.ViewHolder {
         avatar = (ImageView) view.findViewById(R.id.avatar);
     }
 
-    public void bind(final Character character, final CharactersAdapter.OnCharacterClick listener) {
+    public void bind(final int position, final Character character, final CharactersAdapter.OnCharacterClick listener) {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                listener.onCharacterClick(character);
+                listener.onCharacterClick(position, character);
             }
         });
     }

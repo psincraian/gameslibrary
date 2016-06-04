@@ -1,11 +1,15 @@
 package com.psincraian.gameslibrary.models;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
 import com.orm.SugarRecord;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by petrusqui on 20/05/16.
@@ -18,7 +22,7 @@ public class Character extends SugarRecord implements Parcelable{
     private String race;
     private int level;
     private Game game;
-    private Bitmap avatar;
+    private byte[] avatar;
 
     public Character() {
 
@@ -29,7 +33,9 @@ public class Character extends SugarRecord implements Parcelable{
         this.race = race;
         this.level = level;
         this.game = game;
-        this.avatar = avatar;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        avatar.compress(Bitmap.CompressFormat.WEBP, 90, stream);
+        this.avatar = stream.toByteArray();
     }
 
     public String getName() {
@@ -49,7 +55,13 @@ public class Character extends SugarRecord implements Parcelable{
     }
 
     public Bitmap getAvatar() {
-        return this.avatar;
+        return BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
+    }
+
+    public void setAvatar(Bitmap avatar) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        avatar.compress(Bitmap.CompressFormat.WEBP, 90, stream);
+        this.avatar = stream.toByteArray();
     }
 
     public int getLevel() {
@@ -73,7 +85,8 @@ public class Character extends SugarRecord implements Parcelable{
         name = in.readString();
         race = in.readString();
         level = in.readInt();
-        avatar = in.readParcelable(Bitmap.class.getClassLoader());
+        avatar = new byte[in.readInt()];
+        in.readByteArray(avatar);
         game = in.readParcelable(Game.class.getClassLoader());
         Log.d(CLASS_NAME, "ID: " + getId());
         Log.d(CLASS_NAME, "NAME: " + name);
@@ -92,7 +105,8 @@ public class Character extends SugarRecord implements Parcelable{
         dest.writeString(name);
         dest.writeString(race);
         dest.writeInt(level);
-        dest.writeParcelable(avatar, 0);
+        dest.writeInt(avatar.length);
+        dest.writeByteArray(avatar);
         dest.writeParcelable(game, 0);
     }
 

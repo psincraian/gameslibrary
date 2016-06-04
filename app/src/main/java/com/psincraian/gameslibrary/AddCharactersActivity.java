@@ -11,8 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.psincraian.gameslibrary.models.Character;
 import com.psincraian.gameslibrary.models.Game;
@@ -29,12 +31,15 @@ public class AddCharactersActivity extends AppCompatActivity implements View.OnC
     public static final String INTENT_EXTRA_CHARACTER = "extra_character";
     public static final String INTENT_EXTRA_GAME_NAME = "extra_game";
     public static final int PICK_PHOTO_FOR_AVATAR = 2;
+
     EditText characterName;
     EditText characterLevel;
     EditText characterRace;
     ImageButton imageButton;
+    Button delete;
     Bitmap avatar;
     AutoCompleteTextView characterGame;
+    Character character;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,7 @@ public class AddCharactersActivity extends AppCompatActivity implements View.OnC
         characterLevel = (EditText) findViewById(R.id.input_character_level);
         characterRace = (EditText) findViewById(R.id.input_character_race);
         characterGame = (AutoCompleteTextView) findViewById(R.id.input_character_game_title);
+        delete = (Button) findViewById(R.id.button_delete);
         ArrayAdapter<String> studioAdapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_list_item_1, getGameTitles()
         );
@@ -60,6 +66,12 @@ public class AddCharactersActivity extends AppCompatActivity implements View.OnC
         Intent arguments = getIntent();
         if (arguments != null && arguments.hasExtra(INTENT_EXTRA_GAME_NAME))
             characterGame.setText(arguments.getStringExtra(INTENT_EXTRA_GAME_NAME));
+        if (arguments != null && arguments.hasExtra(INTENT_EXTRA_CHARACTER)) {
+            character = arguments.getParcelableExtra(INTENT_EXTRA_CHARACTER);
+            fillCharacterData();
+            delete.setVisibility(View.VISIBLE);
+        } else
+            character = new Character();
 
         characterGame.setAdapter(studioAdapter);
     }
@@ -82,12 +94,20 @@ public class AddCharactersActivity extends AppCompatActivity implements View.OnC
         String gameTitle = characterGame.getText().toString();
         Game game = Game.find(Game.class, "title = ?", gameTitle).get(0);
 
-        Character character = new Character(title, race, level, game, avatar);
+        character.setName(title);
+        character.setLevel(level);
+        character.setRace(race);
+        character.setGame(game);
+        character.setAvatar(avatar);
         character.save();
         Intent intent = new Intent();
         intent.putExtra(INTENT_EXTRA_CHARACTER, character);
         setResult(Activity.RESULT_OK, intent);
         finish();
+    }
+
+    public void delete(View view) {
+        Toast.makeText(this, "DELETED", Toast.LENGTH_SHORT).show();
     }
 
     private List<String> getGameTitles() {
@@ -125,5 +145,13 @@ public class AddCharactersActivity extends AppCompatActivity implements View.OnC
                 startActivityForResult(intent, PICK_PHOTO_FOR_AVATAR);
                 break;
         }
+    }
+
+    private void fillCharacterData() {
+        imageButton.setImageBitmap(character.getAvatar());
+        characterName.setText(character.getName());
+        characterRace.setText(character.getRace());
+        characterLevel.setText(Integer.toString(character.getLevel()));
+        characterGame.setText(character.getGame().getTitle());
     }
 }

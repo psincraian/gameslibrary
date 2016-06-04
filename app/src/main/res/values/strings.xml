@@ -12,7 +12,7 @@
     <string name="objects">Objects</string>
     <string name="options">Options</string>
     <string name="about">About</string>
-
+    <string name="delete">Delete</string>
     <string name="hint_game_title">Game Title</string>
     <string name="hint_game_studio">Game Studio</string>
     <string name="hint_character_name">Name</string>

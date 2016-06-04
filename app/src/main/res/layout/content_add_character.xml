@@ -73,10 +73,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <View
+
+        <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:text="@string/delete"
+            android:id="@+id/button_delete"
+            android:layout_weight="1"
+            style="@style/Button.Cancel"
+            android:visibility="invisible"
+            android:onClick="delete"/>
 
         <Button
             android:id="@+id/button_save"
