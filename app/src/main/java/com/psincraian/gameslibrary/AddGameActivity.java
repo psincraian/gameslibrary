@@ -98,7 +98,13 @@ public class AddGameActivity extends AppCompatActivity {
     }
 
     private boolean validateGameName() {
-        long count = Game.count(Game.class, "title = ?", new String[] {gameTitle.getText().toString()});
+        String newTitle = gameTitle.getText().toString();
+        long count;
+
+        if (game.getTitle() != null && game.getTitle().equals(newTitle))
+            count = 0;
+        else
+            count = Game.count(Game.class, "title = ?", new String[] {newTitle});
 
         if (count > 0) {
             layoutGameTitle.setError(getString(R.string.error_game_title_exists));
