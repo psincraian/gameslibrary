@@ -33,6 +33,7 @@ public class AddGameActivity extends AppCompatActivity {
     EditText gameStudio;
     TextInputLayout layoutGameTitle;
     TextInputLayout layoutGameStudio;
+    Game game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,14 @@ public class AddGameActivity extends AppCompatActivity {
 
         gameTitle.addTextChangedListener(new TextValidator(gameTitle));
         gameStudio.addTextChangedListener(new TextValidator(gameStudio));
+
+        Intent arguments = getIntent();
+        if (arguments != null && arguments.hasExtra(INTENT_EXTRA_GAME)) {
+            game = arguments.getParcelableExtra(INTENT_EXTRA_GAME);
+            loadGameData();
+            (findViewById(R.id.button_delete)).setVisibility(View.VISIBLE);
+        } else
+            game = new Game();
     }
 
     @Override
@@ -69,12 +78,18 @@ public class AddGameActivity extends AppCompatActivity {
         String title = gameTitle.getText().toString();
         String studio = gameStudio.getText().toString();
 
-        Game game = new Game(title, studio);
+        game.setTitle(title);
+        game.setStudio(studio);
         game.save();
         Intent intent = new Intent();
         intent.putExtra(INTENT_EXTRA_GAME, game);
         setResult(Activity.RESULT_OK, intent);
         finish();
+    }
+
+    private void loadGameData() {
+        gameTitle.setText(game.getTitle());
+        gameStudio.setText(game.getStudio());
     }
 
     private boolean validData() {
