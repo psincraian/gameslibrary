@@ -25,7 +25,9 @@ import java.util.List;
 public class GamesFragment extends Fragment implements MainActivity.MainActivityInterface, GamesAdapter.OnGameClick {
 
     static final int ADD_GAME_REQUEST = 1;
+    static final int EDIT_GAME_REQUEST = 2;
     private GamesAdapter gamesAdapter;
+    private int editGamePosition;
 
     public GamesFragment() {
         // Required empty public constructor
@@ -61,6 +63,11 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
                 Game game = data.getParcelableExtra(AddGameActivity.INTENT_EXTRA_GAME);
                 gamesAdapter.add(game);
             }
+        } else if (requestCode == EDIT_GAME_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                Game game = data.getParcelableExtra(AddGameActivity.INTENT_EXTRA_GAME);
+                gamesAdapter.set(editGamePosition, game);
+            }
         }
     }
 
@@ -86,5 +93,13 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
     public void onGameLongClick(int position, Game game) {
         game.delete();
         gamesAdapter.remove(position);
+    }
+
+    @Override
+    public void onGameEditClick(int position, Game game) {
+        editGamePosition = position;
+        Intent intent = new Intent(getActivity(), AddGameActivity.class);
+        intent.putExtra(AddGameActivity.INTENT_EXTRA_GAME, game);
+        startActivityForResult(intent, EDIT_GAME_REQUEST);
     }
 }

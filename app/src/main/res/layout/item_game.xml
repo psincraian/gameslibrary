@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/list_item_height"
+              android:weightSum="1">
+    
+    <TextView
+        android:id="@+id/game_title"
+        android:text="Hola"
+        android:layout_marginStart="@dimen/list_item_only_text_margin_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/list_item_text_size"
+        android:layout_centerVertical="true"/>
+    
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_edit"
+        android:src="@drawable/ic_edit_black_24dp"
+        android:layout_marginRight="@dimen/list_item_only_text_margin_side"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"/>
+
+</RelativeLayout>

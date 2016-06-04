@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.psincraian.gameslibrary.R;
 import com.psincraian.gameslibrary.models.Game;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class GamesAdapter extends RecyclerView.Adapter<GameViewHolder> {
     public GameViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_1, parent, false);
+                .inflate(R.layout.item_game, parent, false);
         GameViewHolder vh = new GameViewHolder(v);
         return vh;
     }
@@ -46,6 +47,11 @@ public class GamesAdapter extends RecyclerView.Adapter<GameViewHolder> {
         notifyItemInserted(games.size());
     }
 
+    public void set(int position, final Game game) {
+        games.set(position, game);
+        notifyItemChanged(position);
+    }
+
     public void remove(int position) {
         games.remove(position);
         notifyItemRemoved(position);
@@ -59,5 +65,6 @@ public class GamesAdapter extends RecyclerView.Adapter<GameViewHolder> {
     public interface OnGameClick {
         void onGameClick(Game game);
         void onGameLongClick(int position, Game game);
+        void onGameEditClick(int position, Game game);
     }
 }
