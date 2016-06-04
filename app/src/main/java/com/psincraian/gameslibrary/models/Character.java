@@ -23,9 +23,10 @@ public class Character extends SugarRecord implements Parcelable{
     private int level;
     private Game game;
     private byte[] avatar;
+    private boolean deleted;
 
     public Character() {
-
+        deleted = false;
     }
 
     public Character(String name, String race, int level, Game game, Bitmap avatar) {
@@ -36,6 +37,14 @@ public class Character extends SugarRecord implements Parcelable{
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         avatar.compress(Bitmap.CompressFormat.WEBP, 90, stream);
         this.avatar = stream.toByteArray();
+        deleted = false;
+    }
+
+    @Override
+    public boolean delete() {
+        deleted = true;
+        save();
+        return true;
     }
 
     public String getName() {

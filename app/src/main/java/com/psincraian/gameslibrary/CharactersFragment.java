@@ -3,6 +3,7 @@ package com.psincraian.gameslibrary;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.BoolRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,7 +47,6 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_characters, container, false);
 
         Bundle args = getArguments();
@@ -91,12 +91,14 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
     }
 
     private List<Character> getCharactersNames() {
-        List<Character> characters = null;
+        List<Character> characters;
 
         if (game == null)
-            characters = Character.listAll(Character.class);
+            characters = Character.find(Character.class, "deleted = ?", Integer.toString(0));
         else
-            characters = Character.find(Character.class, "game = ?", Long.toString(game.getId()));
+            characters = Character.find(Character.class, "game = ? and deleted = ?",
+                    Long.toString(game.getId()),
+                    Integer.toString(0));
 
         return characters;
     }
@@ -107,5 +109,11 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
         Intent intent = new Intent(getActivity(), AddCharactersActivity.class);
         intent.putExtra(AddCharactersActivity.INTENT_EXTRA_CHARACTER, character);
         startActivityForResult(intent, EDIT_CHARACTER_REQUESt);
+    }
+
+    @Override
+    public void onCharacterLongClick(int position, Character character) {
+        character.delete();
+        charactersAdapter.remove(position);
     }
 }

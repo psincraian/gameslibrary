@@ -6,21 +6,25 @@ import android.os.Parcelable;
 import com.orm.SugarRecord;
 import com.orm.dsl.Unique;
 
+import java.util.List;
+
 /**
  * Created by petrusqui on 17/05/16.
  */
 public class Game extends SugarRecord implements Parcelable {
     @Unique
-    String title;
-    String studio;
+    private String title;
+    private String studio;
+    private boolean deleted;
 
     public Game() {
-
+        deleted = false;
     }
 
     public Game(String title, String studio) {
         this.title = title;
         this.studio = studio;
+        deleted = false;
     }
 
     public String getTitle() {
@@ -35,6 +39,16 @@ public class Game extends SugarRecord implements Parcelable {
         this.studio = studio;
     }
 
+    @Override
+    public boolean delete() {
+        deleted = true;
+
+        List<Character> characters = getCharacters();
+        for (Character c : characters)
+            c.delete();
+
+        return true;
+    }
 
     protected Game(Parcel in) {
         setId(in.readLong());
@@ -66,4 +80,11 @@ public class Game extends SugarRecord implements Parcelable {
             return new Game[size];
         }
     };
+
+    public List<Character> getCharacters() {
+        if (getId() == null)
+            return null;
+
+        return Character.find(Character.class, "game = ?", getId().toString());
+    }
 }

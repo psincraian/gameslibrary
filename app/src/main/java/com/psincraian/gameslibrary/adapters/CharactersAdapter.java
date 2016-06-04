@@ -49,12 +49,18 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharacterViewHolder>
         notifyItemChanged(position);
     }
 
+    public void remove(int position) {
+        characters.remove(position);
+        notifyItemRemoved(position);
+    }
+
     @Override
     public int getItemCount() {
         return characters.size();
     }
 
     public interface OnCharacterClick {
-        public void onCharacterClick(int position, Character character);
+        void onCharacterClick(int position, Character character);
+        void onCharacterLongClick(int position, Character character);
     }
 }

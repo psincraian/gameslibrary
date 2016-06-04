@@ -29,5 +29,13 @@ public class CharacterViewHolder extends RecyclerView.ViewHolder {
                 listener.onCharacterClick(position, character);
             }
         });
+
+        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                listener.onCharacterLongClick(position, character);
+                return true;
+            }
+        });
     }
 }

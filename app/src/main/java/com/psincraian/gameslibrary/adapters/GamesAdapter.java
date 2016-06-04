@@ -46,12 +46,17 @@ public class GamesAdapter extends RecyclerView.Adapter<GameViewHolder> {
         notifyItemInserted(games.size());
     }
 
+    public void delete(int position) {
+        games.remove(position);
+        notifyItemRemoved(position);
+    }
+
     @Override
     public int getItemCount() {
         return games.size();
     }
 
     public interface OnGameClick {
-        public void onGameClick(Game game);
+        void onGameClick(Game game);
     }
 }
