@@ -4,12 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Unique;
 
 /**
  * Created by petrusqui on 17/05/16.
  */
 public class Game extends SugarRecord implements Parcelable {
-
+    @Unique
     String title;
     String studio;
 

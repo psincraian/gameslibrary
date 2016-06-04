@@ -21,4 +21,6 @@
     <string name="title_activity_add_game">Add Game</string>
     <string name="title_activity_game">GameActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="error_game_title_exists">Already exist a game with this title</string>
+    <string name="error_game_studio_empty">Game studio is empty</string>
 </resources>
