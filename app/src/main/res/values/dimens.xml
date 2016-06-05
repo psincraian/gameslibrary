@@ -9,4 +9,5 @@
     <dimen name="list_item_only_text_margin_side">16dp</dimen>
     <dimen name="list_item_top_padding">8dp</dimen>
     <dimen name="list_item_text_size">16sp</dimen>
+    <dimen name="list_title_height">40dp</dimen>
 </resources>
