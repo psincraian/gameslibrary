@@ -112,6 +112,15 @@ public class AddGameActivity extends AppCompatActivity implements ConfirmationDi
         String newTitle = gameTitle.getText().toString();
         long count;
 
+        if (newTitle.trim().isEmpty()) {
+            layoutGameTitle.setError(getString(R.string.error_game_title_empty));
+            requestFocus(gameTitle);
+            return false;
+        } else {
+            layoutGameTitle.setError(null);
+            layoutGameTitle.setErrorEnabled(false);
+        }
+
         if (game.getTitle() != null && game.getTitle().equals(newTitle))
             count = 0;
         else
