@@ -41,7 +41,6 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
     private CharactersAdapter charactersAdapter;
     private Game game;
     private int editPositionCharacter;
-    private Activity activity;
 
     public CharactersFragment() {
         // Required empty public constructor
@@ -72,12 +71,6 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
         listView.setAdapter(charactersAdapter);
 
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        activity = getActivity();
     }
 
     @Override
@@ -119,7 +112,7 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
 
     @Override
     public void addPressed() {
-        Intent intent = new Intent(activity, AddCharactersActivity.class);
+        Intent intent = new Intent(getActivity(), AddCharactersActivity.class);
         if (game != null)
             intent.putExtra(AddCharactersActivity.INTENT_EXTRA_GAME_NAME, game.getTitle());
         startActivityForResult(intent, ADD_CHARACTER_REQUEST);

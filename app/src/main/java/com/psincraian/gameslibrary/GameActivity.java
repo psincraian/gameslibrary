@@ -31,7 +31,9 @@ public class GameActivity extends AppCompatActivity {
     private static final String CLASS_NAME = GameActivity.class.getName();
 
     private Game game;
-    private MainActivity.MainActivityInterface mainActivityInterface;
+    private MainActivity.MainActivityInterface characters;
+    private MainActivity.MainActivityInterface objects;
+    private MainActivity.MainActivityInterface missions;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -68,7 +70,7 @@ public class GameActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
+   
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
@@ -77,8 +79,13 @@ public class GameActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainActivityInterface = (MainActivity.MainActivityInterface) mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
-                mainActivityInterface.addPressed();
+                int id = mViewPager.getCurrentItem();
+                if (id == 0)
+                    characters.addPressed();
+                else if (id == 1)
+                    objects.addPressed();
+                else
+                    missions.addPressed();
             }
         });
 
@@ -126,6 +133,7 @@ public class GameActivity extends AppCompatActivity {
                 case 0:
                     Log.i(CLASS_NAME, "Case 0");
                     CharactersFragment charactersFragment = new CharactersFragment();
+                    characters = charactersFragment;
                     args = new Bundle();
                     args.putParcelable(CharactersFragment.EXTRA_GAME, game);
                     charactersFragment.setArguments(args);
@@ -133,6 +141,7 @@ public class GameActivity extends AppCompatActivity {
                 case 1:
                     Log.i(CLASS_NAME, "Case 1");
                     ObjectsFragment objectsFragment = new ObjectsFragment();
+                    objects = objectsFragment;
                     args = new Bundle();
                     args.putParcelable(ObjectsFragment.EXTRA_GAME, game);
                     objectsFragment.setArguments(args);
@@ -140,6 +149,7 @@ public class GameActivity extends AppCompatActivity {
                 case 2:
                     Log.i(CLASS_NAME, "Case 2");
                     MissionFragment fragment = new MissionFragment();
+                    missions = fragment;
                     args = new Bundle();
                     args.putParcelable(MissionFragment.EXTRA_GAME, game);
                     fragment.setArguments(args);
