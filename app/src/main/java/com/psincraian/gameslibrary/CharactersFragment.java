@@ -79,7 +79,6 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
             case R.id.sort_by:
@@ -89,7 +88,7 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
                 break;
         }
 
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
