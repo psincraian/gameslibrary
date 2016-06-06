@@ -51,7 +51,7 @@ public class GamesAdapter extends RecyclerView.Adapter<GameViewHolder> {
     public void add(Game game) {
         allGames.add(game);
 
-        if (game.getPlaying()) {
+        if (game.getPlaying()  || !filteredByPlaying){
             games.add(game);
             notifyItemInserted(games.size());
         }
