@@ -29,8 +29,10 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
     static final int ADD_GAME_REQUEST = 1;
     static final int EDIT_GAME_REQUEST = 2;
     private static final String FILTER_PLAYING = "Playing";
+    private static final String CLASS_NAME = GamesFragment.class.getSimpleName();
     private GamesAdapter gamesAdapter;
     private int editGamePosition;
+    private Dialog dialog;
 
     public GamesFragment() {
         // Required empty public constructor
@@ -73,7 +75,8 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
                 String[] items = getResources().getStringArray(R.array.filter_by);
                 boolean[] checked = new boolean[] {gamesAdapter.isFilteredByPlaying()};
                 FilterByDialog dialog = new FilterByDialog(getActivity(), items, checked, this);
-                dialog.onCreateDialog(null).show();
+                this.dialog = dialog.onCreateDialog(null);
+                this.dialog.show();
                 break;
         }
 
@@ -92,6 +95,8 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
         } else if (requestCode == EDIT_GAME_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 Game game = data.getParcelableExtra(AddGameActivity.INTENT_EXTRA_GAME);
+                Log.i(CLASS_NAME, "Is playing: " + game.getPlaying());
+                Log.i(CLASS_NAME, "Game position: " + editGamePosition);
                 gamesAdapter.set(editGamePosition, game);
             }
         }
@@ -135,5 +140,10 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
             gamesAdapter.filterByPlaying(true);
         else
             gamesAdapter.filterByPlaying(false);
+    }
+
+    @Override
+    public void cancel() {
+        dialog.dismiss();
     }
 }

@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class GamesAdapter extends RecyclerView.Adapter<GameViewHolder> {
 
+    private static final String CLASS_NAME = GamesAdapter.class.getSimpleName();
     private List<Game> games;
     private List<Game> allGames;
     private OnGameClick listener;
@@ -48,17 +49,33 @@ public class GamesAdapter extends RecyclerView.Adapter<GameViewHolder> {
     }
 
     public void add(Game game) {
-        games.add(game);
-        notifyItemInserted(games.size());
+        allGames.add(game);
+
+        if (game.getPlaying()) {
+            games.add(game);
+            notifyItemInserted(games.size());
+        }
     }
 
     public void set(int position, final Game game) {
-        games.set(position, game);
-        notifyItemChanged(position);
+        Game old = games.get(position);
+        allGames.set(position, game);
+
+        if (!old.getPlaying() && filteredByPlaying) {
+            games.add(position, game);
+            notifyItemInserted(position);
+        } else if (!game.getPlaying() && filteredByPlaying) {
+            games.remove(position);
+            notifyItemRemoved(position);
+        } else {
+            games.set(position, game);
+            notifyItemChanged(position);
+        }
     }
 
     public void remove(int position) {
         games.remove(position);
+        allGames.remove(position);
         notifyItemRemoved(position);
     }
 

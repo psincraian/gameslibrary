@@ -86,6 +86,7 @@ public class AddGameActivity extends AppCompatActivity {
         game.setStudio(studio);
         game.setPlaying(playing);
         game.save();
+        Log.i(CLASS_NAME, "(1) Is playing: " + game.getPlaying());
         Intent intent = new Intent();
         intent.putExtra(INTENT_EXTRA_GAME, game);
         setResult(Activity.RESULT_OK, intent);
@@ -95,6 +96,7 @@ public class AddGameActivity extends AppCompatActivity {
     private void loadGameData() {
         gameTitle.setText(game.getTitle());
         gameStudio.setText(game.getStudio());
+        Log.i(CLASS_NAME, "INIT - is playing: " + game.getPlaying());
         gamePlaying.setChecked(game.getPlaying());
     }
 

@@ -61,6 +61,8 @@ public class Game extends SugarRecord implements Parcelable {
         setId(in.readLong());
         title = in.readString();
         studio = in.readString();
+        deleted = in.readByte() != 0;
+        playing = in.readByte() != 0;
     }
 
     public void setPlaying(boolean playing) {
@@ -81,6 +83,8 @@ public class Game extends SugarRecord implements Parcelable {
         dest.writeLong(getId());
         dest.writeString(title);
         dest.writeString(studio);
+        dest.writeByte((byte) (deleted ? 1 : 0));
+        dest.writeByte((byte) (playing ? 1 : 0));
     }
 
     @SuppressWarnings("unused")

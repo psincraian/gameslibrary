@@ -55,7 +55,7 @@ public class FilterByDialog extends DialogFragment {
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        dismiss();
+                        click.cancel();
                     }
                 });
 
@@ -64,5 +64,6 @@ public class FilterByDialog extends DialogFragment {
 
     public interface OnItemClick {
         void onItemClick(List<String> selected);
+        void cancel();
     }
 }
