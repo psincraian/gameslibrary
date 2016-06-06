@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.orm.SugarContext;
@@ -33,6 +34,7 @@ public class AddGameActivity extends AppCompatActivity {
     EditText gameStudio;
     TextInputLayout layoutGameTitle;
     TextInputLayout layoutGameStudio;
+    Switch gamePlaying;
     Game game;
 
     @Override
@@ -47,6 +49,7 @@ public class AddGameActivity extends AppCompatActivity {
         layoutGameStudio = (TextInputLayout) findViewById(R.id.input_layout_game_studio);
         gameTitle = (EditText) findViewById(R.id.input_game_title);
         gameStudio = (EditText) findViewById(R.id.input_game_studio);
+        gamePlaying = (Switch) findViewById(R.id.playing);
 
         gameTitle.addTextChangedListener(new TextValidator(gameTitle));
         gameStudio.addTextChangedListener(new TextValidator(gameStudio));
@@ -77,9 +80,11 @@ public class AddGameActivity extends AppCompatActivity {
 
         String title = gameTitle.getText().toString();
         String studio = gameStudio.getText().toString();
+        boolean playing = gamePlaying.isChecked();
 
         game.setTitle(title);
         game.setStudio(studio);
+        game.setPlaying(playing);
         game.save();
         Intent intent = new Intent();
         intent.putExtra(INTENT_EXTRA_GAME, game);
@@ -90,6 +95,7 @@ public class AddGameActivity extends AppCompatActivity {
     private void loadGameData() {
         gameTitle.setText(game.getTitle());
         gameStudio.setText(game.getStudio());
+        gamePlaying.setChecked(game.getPlaying());
     }
 
     private boolean validData() {

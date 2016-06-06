@@ -16,15 +16,17 @@ public class Game extends SugarRecord implements Parcelable {
     private String title;
     private String studio;
     private boolean deleted;
+    private boolean playing;
 
     public Game() {
         deleted = false;
     }
 
-    public Game(String title, String studio) {
+    public Game(String title, String studio, boolean playing) {
         this.title = title;
         this.studio = studio;
         deleted = false;
+        this.playing = playing;
     }
 
     public String getTitle() {
@@ -59,6 +61,14 @@ public class Game extends SugarRecord implements Parcelable {
         setId(in.readLong());
         title = in.readString();
         studio = in.readString();
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
+    }
+
+    public boolean getPlaying() {
+        return playing;
     }
 
     @Override

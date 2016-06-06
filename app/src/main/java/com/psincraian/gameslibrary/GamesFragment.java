@@ -9,12 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.psincraian.gameslibrary.adapters.GameViewHolder;
 import com.psincraian.gameslibrary.adapters.GamesAdapter;
 import com.psincraian.gameslibrary.models.Game;
 
@@ -78,7 +73,7 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
     }
 
     private List<Game> getGames() {
-        List<Game> games = Game.find(Game.class, "deleted = ?", Integer.toString(0));
+        List<Game> games = Game.find(Game.class, "deleted = ? and playing = ?", Integer.toString(0), Integer.toString(1));
         return games;
     }
 

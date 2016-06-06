@@ -39,11 +39,23 @@
             android:hint="@string/hint_game_studio" />
 
     </android.support.design.widget.TextInputLayout>
-    
+
+
+        <Switch
+            android:textSize="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/playing"
+            android:id="@+id/playing"
+            android:layout_gravity="right"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="4dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
 
         <Button
             android:layout_width="0dp"
