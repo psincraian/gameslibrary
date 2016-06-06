@@ -57,6 +57,10 @@ public class GamesAdapter extends RecyclerView.Adapter<GameViewHolder> {
         }
     }
 
+    public Game get(int position) {
+        return games.get(position);
+    }
+
     public void set(int position, final Game game) {
         Game old = games.get(position);
         allGames.set(position, game);

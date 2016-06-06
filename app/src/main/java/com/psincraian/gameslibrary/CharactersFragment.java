@@ -120,11 +120,10 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
         List<Character> characters;
 
         if (game == null)
-            characters = Character.find(Character.class, "deleted = ?", Integer.toString(0));
+            characters = Character.find(Character.class, "");
         else
-            characters = Character.find(Character.class, "game = ? and deleted = ?",
-                    Long.toString(game.getId()),
-                    Integer.toString(0));
+            characters = Character.find(Character.class, "game = ?",
+                    Long.toString(game.getId()));
 
         return characters;
     }

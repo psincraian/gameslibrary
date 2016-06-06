@@ -2,12 +2,9 @@ package com.psincraian.gameslibrary;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,14 +21,17 @@ import com.psincraian.gameslibrary.models.Game;
 import java.util.List;
 
 
-public class GamesFragment extends Fragment implements MainActivity.MainActivityInterface, GamesAdapter.OnGameClick, FilterByDialog.OnItemClick {
+public class GamesFragment extends Fragment implements MainActivity.MainActivityInterface,
+        GamesAdapter.OnGameClick,
+        FilterByDialog.OnItemClick,
+        ConfirmationDialog.ConfirmationInterface{
 
     static final int ADD_GAME_REQUEST = 1;
     static final int EDIT_GAME_REQUEST = 2;
     private static final String FILTER_PLAYING = "Playing";
     private static final String CLASS_NAME = GamesFragment.class.getSimpleName();
     private GamesAdapter gamesAdapter;
-    private int editGamePosition;
+    private int selectedGame;
     private Dialog dialog;
 
     public GamesFragment() {
@@ -96,8 +96,8 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
             if (resultCode == Activity.RESULT_OK) {
                 Game game = data.getParcelableExtra(AddGameActivity.INTENT_EXTRA_GAME);
                 Log.i(CLASS_NAME, "Is playing: " + game.getPlaying());
-                Log.i(CLASS_NAME, "Game position: " + editGamePosition);
-                gamesAdapter.set(editGamePosition, game);
+                Log.i(CLASS_NAME, "Game position: " + selectedGame);
+                gamesAdapter.set(selectedGame, game);
             }
         }
     }
@@ -109,7 +109,7 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
     }
 
     private List<Game> getGames() {
-        List<Game> games = Game.find(Game.class, "deleted = ?", Integer.toString(0));
+        List<Game> games = Game.find(Game.class, "");
         return games;
     }
 
@@ -122,13 +122,15 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
 
     @Override
     public void onGameLongClick(int position, Game game) {
-        game.delete();
-        gamesAdapter.remove(position);
+        selectedGame = position;
+        ConfirmationDialog confirmationDialog = new ConfirmationDialog(getActivity(), this);
+        dialog = confirmationDialog.onCreateDialog(null);
+        dialog.show();
     }
 
     @Override
     public void onGameEditClick(int position, Game game) {
-        editGamePosition = position;
+        selectedGame = position;
         Intent intent = new Intent(getActivity(), AddGameActivity.class);
         intent.putExtra(AddGameActivity.INTENT_EXTRA_GAME, game);
         startActivityForResult(intent, EDIT_GAME_REQUEST);
@@ -140,6 +142,13 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
             gamesAdapter.filterByPlaying(true);
         else
             gamesAdapter.filterByPlaying(false);
+    }
+
+    @Override
+    public void yes() {
+        Game game = gamesAdapter.get(selectedGame);
+        game.delete();
+        gamesAdapter.remove(selectedGame);
     }
 
     @Override

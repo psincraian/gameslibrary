@@ -15,17 +15,14 @@ public class Game extends SugarRecord implements Parcelable {
     @Unique
     private String title;
     private String studio;
-    private boolean deleted;
     private boolean playing;
 
     public Game() {
-        deleted = false;
     }
 
     public Game(String title, String studio, boolean playing) {
         this.title = title;
         this.studio = studio;
-        deleted = false;
         this.playing = playing;
     }
 
@@ -47,21 +44,17 @@ public class Game extends SugarRecord implements Parcelable {
 
     @Override
     public boolean delete() {
-        deleted = true;
-
         List<Character> characters = getCharacters();
         for (Character c : characters)
             c.delete();
 
-        save();
-        return true;
+        return super.delete();
     }
 
     protected Game(Parcel in) {
         setId(in.readLong());
         title = in.readString();
         studio = in.readString();
-        deleted = in.readByte() != 0;
         playing = in.readByte() != 0;
     }
 
@@ -83,7 +76,6 @@ public class Game extends SugarRecord implements Parcelable {
         dest.writeLong(getId());
         dest.writeString(title);
         dest.writeString(studio);
-        dest.writeByte((byte) (deleted ? 1 : 0));
         dest.writeByte((byte) (playing ? 1 : 0));
     }
 

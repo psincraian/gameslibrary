@@ -27,6 +27,9 @@
     <string name="sort_by">Sort by</string>
     <string name="filter">Filter</string>
     <string name="cancel">Cancel</string>
+    <string name="do_you_really_want_to_delete">Do you really want to delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <array name="sort_by">
         <item>Name</item>
