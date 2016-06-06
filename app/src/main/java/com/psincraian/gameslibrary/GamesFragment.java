@@ -1,19 +1,26 @@
 package com.psincraian.gameslibrary;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.psincraian.gameslibrary.adapters.GamesAdapter;
 import com.psincraian.gameslibrary.models.Game;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,6 +28,7 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
 
     static final int ADD_GAME_REQUEST = 1;
     static final int EDIT_GAME_REQUEST = 2;
+
     private GamesAdapter gamesAdapter;
     private int editGamePosition;
 
@@ -37,6 +45,7 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_games, container, false);
 
         gamesAdapter = new GamesAdapter(getGames(), this);
@@ -47,6 +56,23 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
         listView.setAdapter(gamesAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_games_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+
+        }
+
+        return true;
     }
 
     @Override

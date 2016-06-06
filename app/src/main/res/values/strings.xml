@@ -24,4 +24,9 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="error_game_title_exists">Already exist a game with this title</string>
     <string name="error_game_studio_empty">Game studio is empty</string>
+    <string name="sort_by">Sort by</string>
+    <array name="sort_by">
+        <item>Name</item>
+        <item>Level</item>
+    </array>
 </resources>

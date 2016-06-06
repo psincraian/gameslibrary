@@ -9,6 +9,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -23,13 +26,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CharactersFragment extends Fragment implements MainActivity.MainActivityInterface, CharactersAdapter.OnCharacterClick {
+public class CharactersFragment extends Fragment implements MainActivity.MainActivityInterface, CharactersAdapter.OnCharacterClick, SortByDialog.OnItemClick {
 
     public static final int ADD_CHARACTER_REQUEST = 1;
     public static final int EDIT_CHARACTER_REQUESt = 2;
-
     public static final String EXTRA_GAME = "extra_game_id";
+
     private static final String CLASS_NAME = CharactersFragment.class.getName();
+    private static final String SORT_BY_NAME = "Name";
+    private static final String SORT_BY_LEVEL = "Level";
 
     private CharactersAdapter charactersAdapter;
     private Game game;
@@ -47,6 +52,7 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_characters, container, false);
 
         Bundle args = getArguments();
@@ -63,6 +69,27 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
         listView.setAdapter(charactersAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_characters_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+            case R.id.sort_by:
+                String[] items = getResources().getStringArray(R.array.sort_by);
+                SortByDialog dialog = new SortByDialog(getActivity(), items, this);
+                dialog.onCreateDialog(null).show();
+                break;
+        }
+
+        return true;
     }
 
     @Override
@@ -115,5 +142,17 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
     public void onCharacterLongClick(int position, Character character) {
         character.delete();
         charactersAdapter.remove(position);
+    }
+
+    @Override
+    public void onItemClick(String item) {
+        switch (item) {
+            case SORT_BY_NAME:
+                charactersAdapter.orderBy(CharactersAdapter.ORDER_BY_NAME);
+                break;
+            case SORT_BY_LEVEL:
+                charactersAdapter.orderBy(CharactersAdapter.ORDER_BY_LEVEL);
+                break;
+        }
     }
 }

@@ -15,12 +15,14 @@ public class CharacterViewHolder extends RecyclerView.ViewHolder {
 
     public TextView name;
     public ImageView avatar;
+    public TextView level;
 
 
     public CharacterViewHolder(View view) {
         super(view);
         name = (TextView) view.findViewById(R.id.name);
         avatar = (ImageView) view.findViewById(R.id.avatar);
+        level = (TextView) view.findViewById(R.id.level);
     }
 
     public void bind(final int position, final Character character, final CharactersAdapter.OnCharacterClick listener) {
