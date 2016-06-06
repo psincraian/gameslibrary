@@ -4,32 +4,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_games"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_videogame_asset_black_24dp"
             android:title="@string/games" />
         <item
             android:id="@+id/nav_characters"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_account_circle_black_24dp"
             android:title="@string/characters" />
         <item
             android:id="@+id/nav_missions"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_receipt_black_24dp"
             android:title="@string/missions" />
         <item
             android:id="@+id/nav_objects"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/objects" />
     </group>
-
-    <item android:title="Other">
-        <menu>
-            <item
-                android:id="@+id/nav_options"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/options" />
-            <item
-                android:id="@+id/nav_about"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/about" />
-        </menu>
-    </item>
 </menu>
