@@ -49,7 +49,7 @@ public class AddObjectActivity extends AppCompatActivity implements View.OnClick
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        avatar = BitmapFactory.decodeResource(getResources(), R.drawable.ic_person_black_48dp);
+        avatar = BitmapFactory.decodeResource(getResources(), R.drawable.ic_settings_black_24dp);
         imageButton = (ImageButton) findViewById(R.id.avatar);
         imageButton.setImageBitmap(avatar);
         characterName = (EditText) findViewById(R.id.input_character_name);
