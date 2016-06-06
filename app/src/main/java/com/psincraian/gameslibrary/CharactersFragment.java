@@ -1,6 +1,7 @@
 package com.psincraian.gameslibrary;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,12 +24,13 @@ import android.widget.Toast;
 import com.psincraian.gameslibrary.adapters.CharactersAdapter;
 import com.psincraian.gameslibrary.models.Character;
 import com.psincraian.gameslibrary.models.Game;
+import com.psincraian.gameslibrary.models.Object;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class CharactersFragment extends Fragment implements MainActivity.MainActivityInterface, CharactersAdapter.OnCharacterClick, SortByDialog.OnItemClick {
+public class CharactersFragment extends Fragment implements MainActivity.MainActivityInterface, CharactersAdapter.OnCharacterClick, SortByDialog.OnItemClick, ConfirmationDialog.ConfirmationInterface {
 
     public static final int ADD_CHARACTER_REQUEST = 1;
     public static final int EDIT_CHARACTER_REQUESt = 2;
@@ -41,6 +43,8 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
     private CharactersAdapter charactersAdapter;
     private Game game;
     private int editPositionCharacter;
+    private int selectedPosition;
+    private Dialog dialog;
 
     public CharactersFragment() {
         // Required empty public constructor
@@ -140,8 +144,10 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
 
     @Override
     public void onCharacterLongClick(int position, Character character) {
-        character.delete();
-        charactersAdapter.remove(position);
+        selectedPosition = position;
+        ConfirmationDialog confirmationDialog = new ConfirmationDialog(getActivity(), this);
+        dialog = confirmationDialog.onCreateDialog(null);
+        dialog.show();
     }
 
     @Override
@@ -154,5 +160,17 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
                 charactersAdapter.orderBy(CharactersAdapter.ORDER_BY_LEVEL);
                 break;
         }
+    }
+
+    @Override
+    public void yes() {
+        Character object = charactersAdapter.get(selectedPosition);
+        object.delete();
+        charactersAdapter.remove(selectedPosition);
+    }
+
+    @Override
+    public void cancel() {
+        dialog.dismiss();
     }
 }

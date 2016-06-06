@@ -100,6 +100,10 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharacterViewHolder>
         return characters.size();
     }
 
+    public Character get(int selectedPosition) {
+        return characters.get(selectedPosition);
+    }
+
     public interface OnCharacterClick {
         void onCharacterClick(int position, Character character);
         void onCharacterLongClick(int position, Character character);
