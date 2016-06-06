@@ -156,14 +156,23 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+            Fragment fragment;
+            Bundle args;
             switch (position) {
                 case 0:
-                    CharactersFragment fragment = new CharactersFragment();
+                    fragment = new CharactersFragment();
                     mainActivityInterface = (MainActivity.MainActivityInterface) fragment;
-                    Bundle args = new Bundle();
+                    args = new Bundle();
                     Log.d(CLASS_NAME, "### NAME: " + game.getTitle());
                     Log.d(CLASS_NAME, "### ID: " + String.valueOf(game.getId()));
                     args.putParcelable(CharactersFragment.EXTRA_GAME, game);
+                    fragment.setArguments(args);
+                    return fragment;
+                case 2:
+                    fragment = new MissionFragment();
+                    mainActivityInterface = (MainActivity.MainActivityInterface) fragment;
+                    args = new Bundle();
+                    args.putParcelable(MissionFragment.EXTRA_GAME, game);
                     fragment.setArguments(args);
                     return fragment;
                 default:
