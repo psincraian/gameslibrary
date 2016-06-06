@@ -1,6 +1,7 @@
 package com.psincraian.gameslibrary;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,7 +24,7 @@ import com.psincraian.gameslibrary.models.Object;
 import java.util.List;
 
 
-public class ObjectsFragment extends Fragment implements MainActivity.MainActivityInterface, ObjectAdapter.OnCharacterClick, SortByDialog.OnItemClick {
+public class ObjectsFragment extends Fragment implements MainActivity.MainActivityInterface, ObjectAdapter.OnCharacterClick, SortByDialog.OnItemClick, ConfirmationDialog.ConfirmationInterface {
 
     public static final int ADD_CHARACTER_REQUEST = 1;
     public static final int EDIT_CHARACTER_REQUESt = 2;
@@ -36,6 +37,8 @@ public class ObjectsFragment extends Fragment implements MainActivity.MainActivi
     private ObjectAdapter charactersAdapter;
     private Game game;
     private int editPositionCharacter;
+    private int selectedPosition;
+    private Dialog dialog;
 
     public ObjectsFragment() {
         // Required empty public constructor
@@ -136,8 +139,10 @@ public class ObjectsFragment extends Fragment implements MainActivity.MainActivi
 
     @Override
     public void onCharacterLongClick(int position, Object character) {
-        character.delete();
-        charactersAdapter.remove(position);
+        selectedPosition = position;
+        ConfirmationDialog confirmationDialog = new ConfirmationDialog(getActivity(), this);
+        dialog = confirmationDialog.onCreateDialog(null);
+        dialog.show();
     }
 
     @Override
@@ -150,5 +155,17 @@ public class ObjectsFragment extends Fragment implements MainActivity.MainActivi
                 charactersAdapter.orderBy(ObjectAdapter.ORDER_BY_LEVEL);
                 break;
         }
+    }
+
+    @Override
+    public void yes() {
+        Object object = charactersAdapter.get(selectedPosition);
+        object.delete();
+        charactersAdapter.remove(selectedPosition);
+    }
+
+    @Override
+    public void cancel() {
+        dialog.dismiss();
     }
 }

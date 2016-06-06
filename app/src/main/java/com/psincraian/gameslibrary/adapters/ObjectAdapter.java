@@ -99,6 +99,10 @@ public class ObjectAdapter extends RecyclerView.Adapter<ObjectViewHolder> {
         return characters.size();
     }
 
+    public Object get(int selectedPosition) {
+        return characters.get(selectedPosition);
+    }
+
     public interface OnCharacterClick {
         void onCharacterClick(int position, Object character);
         void onCharacterLongClick(int position, Object character);
