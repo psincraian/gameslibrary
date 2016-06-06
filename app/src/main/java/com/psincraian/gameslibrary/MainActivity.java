@@ -110,7 +110,12 @@ public class MainActivity extends AppCompatActivity
                     .addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_missions) {
-
+            Fragment fragment = new MissionFragment();
+            mainActivityInterface = (MainActivityInterface) fragment;
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_container, fragment)
+                    .addToBackStack(null)
+                    .commit();
         } else if (id == R.id.nav_objects) {
 
         } else if (id == R.id.nav_options) {

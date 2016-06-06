@@ -31,6 +31,10 @@
     <string name="do_you_really_want_to_delete">Do you really want to delete</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="mission_title">Title</string>
+    <string name="mission_description">Description</string>
+    <string name="mission_score">Score</string>
+    <string name="completed">Completed</string>
 
     <array name="sort_by">
         <item>Name</item>

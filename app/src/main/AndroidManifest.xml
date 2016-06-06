@@ -51,6 +51,15 @@
                 android:value="com.psincraian.gameslibrary.MainActivity"/>
         </activity>
         <activity
+            android:name=".AddMissionActivity"
+            android:label="@string/title_activity_add_game"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.psincraian.gameslibrary.MainActivity"/>
+        </activity>
+        <activity
             android:name=".GameActivity"
             android:label="@string/title_activity_game"
             android:parentActivityName=".MainActivity"

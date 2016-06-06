@@ -17,6 +17,7 @@ public class Mission extends SugarRecord implements Parcelable {
     private int score;
     private int level;
     private boolean completed;
+    private Game game;
 
     public Mission() {
 
@@ -36,6 +37,7 @@ public class Mission extends SugarRecord implements Parcelable {
         score = in.readInt();
         level = in.readInt();
         completed = in.readByte() != 0;
+        game = in.readParcelable(Game.class.getClassLoader());
     }
 
     @Override
@@ -45,6 +47,7 @@ public class Mission extends SugarRecord implements Parcelable {
         parcel.writeInt(score);
         parcel.writeInt(level);
         parcel.writeByte((byte) (completed ? 1 : 0));
+        parcel.writeParcelable(game, 0);
     }
 
     public String getTitle() {
@@ -85,6 +88,14 @@ public class Mission extends SugarRecord implements Parcelable {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     @Override
