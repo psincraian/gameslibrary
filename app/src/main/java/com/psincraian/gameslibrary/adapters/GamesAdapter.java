@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.psincraian.gameslibrary.R;
 import com.psincraian.gameslibrary.models.Game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,12 +20,16 @@ import java.util.List;
 public class GamesAdapter extends RecyclerView.Adapter<GameViewHolder> {
 
     private List<Game> games;
+    private List<Game> allGames;
     private OnGameClick listener;
+    private boolean filteredByPlaying;
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public GamesAdapter(List<Game> mDataset, OnGameClick listener) {
         games = mDataset;
+        allGames = new ArrayList<>(mDataset);
         this.listener = listener;
+        this.filteredByPlaying = false;
     }
 
     @Override
@@ -55,6 +60,33 @@ public class GamesAdapter extends RecyclerView.Adapter<GameViewHolder> {
     public void remove(int position) {
         games.remove(position);
         notifyItemRemoved(position);
+    }
+
+    public void filterByPlaying(boolean activated) {
+        if (activated != filteredByPlaying) {
+            if (activated) {
+                removeNotPlayingGames();
+            } else {
+                games = new ArrayList<>(allGames);
+                notifyItemRangeChanged(0, games.size());
+            }
+        }
+
+        filteredByPlaying = activated;
+
+    }
+
+    public boolean isFilteredByPlaying() {
+        return filteredByPlaying;
+    }
+
+    private void removeNotPlayingGames() {
+        for (int i = 0; i < games.size(); i++)
+            if (!games.get(i).getPlaying()) {
+                games.remove(i);
+                notifyItemRemoved(i);
+                --i;
+            }
     }
 
     @Override

@@ -25,8 +25,15 @@
     <string name="error_game_title_exists">Already exist a game with this title</string>
     <string name="error_game_studio_empty">Game studio is empty</string>
     <string name="sort_by">Sort by</string>
+    <string name="filter">Filter</string>
+    <string name="cancel">Cancel</string>
+
     <array name="sort_by">
         <item>Name</item>
         <item>Level</item>
+    </array>
+
+    <array name="filter_by">
+        <item>Playing</item>
     </array>
 </resources>

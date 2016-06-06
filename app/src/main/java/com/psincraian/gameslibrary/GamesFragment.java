@@ -24,11 +24,11 @@ import com.psincraian.gameslibrary.models.Game;
 import java.util.List;
 
 
-public class GamesFragment extends Fragment implements MainActivity.MainActivityInterface, GamesAdapter.OnGameClick {
+public class GamesFragment extends Fragment implements MainActivity.MainActivityInterface, GamesAdapter.OnGameClick, FilterByDialog.OnItemClick {
 
     static final int ADD_GAME_REQUEST = 1;
     static final int EDIT_GAME_REQUEST = 2;
-
+    private static final String FILTER_PLAYING = "Playing";
     private GamesAdapter gamesAdapter;
     private int editGamePosition;
 
@@ -69,7 +69,12 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
-
+            case R.id.filter_by:
+                String[] items = getResources().getStringArray(R.array.filter_by);
+                boolean[] checked = new boolean[] {gamesAdapter.isFilteredByPlaying()};
+                FilterByDialog dialog = new FilterByDialog(getActivity(), items, checked, this);
+                dialog.onCreateDialog(null).show();
+                break;
         }
 
         return true;
@@ -99,7 +104,7 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
     }
 
     private List<Game> getGames() {
-        List<Game> games = Game.find(Game.class, "deleted = ? and playing = ?", Integer.toString(0), Integer.toString(1));
+        List<Game> games = Game.find(Game.class, "deleted = ?", Integer.toString(0));
         return games;
     }
 
@@ -122,5 +127,13 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
         Intent intent = new Intent(getActivity(), AddGameActivity.class);
         intent.putExtra(AddGameActivity.INTENT_EXTRA_GAME, game);
         startActivityForResult(intent, EDIT_GAME_REQUEST);
+    }
+
+    @Override
+    public void onItemClick(List<String> selected) {
+        if (selected.contains(FILTER_PLAYING))
+            gamesAdapter.filterByPlaying(true);
+        else
+            gamesAdapter.filterByPlaying(false);
     }
 }
