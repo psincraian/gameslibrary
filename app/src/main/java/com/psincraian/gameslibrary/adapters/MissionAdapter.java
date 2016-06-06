@@ -34,7 +34,7 @@ public class MissionAdapter extends RecyclerView.Adapter<MissionViewHolder> {
     @Override
     public MissionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_character, parent, false);
+                .inflate(R.layout.item_mission, parent, false);
         MissionViewHolder vh = new MissionViewHolder(v);
         return vh;
     }

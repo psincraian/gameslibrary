@@ -127,8 +127,8 @@ public class MissionFragment extends Fragment implements MainActivity.MainActivi
     @Override
     public void onCharacterClick(int position, Mission character) {
         editPositionMission = position;
-        Intent intent = new Intent(getActivity(), AddCharactersActivity.class);
-        intent.putExtra(AddCharactersActivity.INTENT_EXTRA_CHARACTER, character);
+        Intent intent = new Intent(getActivity(), AddMissionActivity.class);
+        intent.putExtra(AddMissionActivity.INTENT_EXTRA_MISSION, character);
         startActivityForResult(intent, EDIT_MISSION_REQUEST);
     }
 
