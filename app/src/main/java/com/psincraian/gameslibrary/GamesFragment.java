@@ -95,9 +95,9 @@ public class GamesFragment extends Fragment implements MainActivity.MainActivity
         } else if (requestCode == EDIT_GAME_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 Game game = data.getParcelableExtra(AddGameActivity.INTENT_EXTRA_GAME);
-                Log.i(CLASS_NAME, "Is playing: " + game.getPlaying());
-                Log.i(CLASS_NAME, "Game position: " + selectedGame);
                 gamesAdapter.set(selectedGame, game);
+            } else if (resultCode == AddGameActivity.RESULT_GAME_DELETE) {
+                gamesAdapter.remove(selectedGame);
             }
         }
     }

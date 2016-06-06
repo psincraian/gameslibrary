@@ -1,6 +1,7 @@
 package com.psincraian.gameslibrary;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,9 +27,10 @@ import android.widget.Toast;
 import com.orm.SugarContext;
 import com.psincraian.gameslibrary.models.Game;
 
-public class AddGameActivity extends AppCompatActivity {
+public class AddGameActivity extends AppCompatActivity implements ConfirmationDialog.ConfirmationInterface {
 
     private static final String CLASS_NAME = AddGameActivity.class.getSimpleName();
+    public static final int RESULT_GAME_DELETE = 100;
     public static final String INTENT_EXTRA_GAME = "game";
     EditText gameTitle;
     EditText gameStudio;
@@ -36,6 +38,7 @@ public class AddGameActivity extends AppCompatActivity {
     TextInputLayout layoutGameStudio;
     Switch gamePlaying;
     Game game;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +146,24 @@ public class AddGameActivity extends AppCompatActivity {
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
+    }
+
+    public void delete(View view) {
+        ConfirmationDialog confirmationDialog = new ConfirmationDialog(this, this);
+        dialog = confirmationDialog.onCreateDialog(null);
+        dialog.show();
+    }
+
+    @Override
+    public void yes() {
+        game.delete();
+        setResult(RESULT_GAME_DELETE);
+        finish();
+    }
+
+    @Override
+    public void cancel() {
+        dialog.dismiss();
     }
 
     private class TextValidator implements TextWatcher {
