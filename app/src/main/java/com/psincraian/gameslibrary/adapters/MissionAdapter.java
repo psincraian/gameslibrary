@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.psincraian.gameslibrary.R;
 import com.psincraian.gameslibrary.models.Character;
 import com.psincraian.gameslibrary.models.Mission;
+import com.psincraian.gameslibrary.models.Object;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -97,6 +98,10 @@ public class MissionAdapter extends RecyclerView.Adapter<MissionViewHolder> {
     @Override
     public int getItemCount() {
         return characters.size();
+    }
+
+    public Mission get(int selectedPosition) {
+        return  characters.get(selectedPosition);
     }
 
     public interface OnCharacterClick {
