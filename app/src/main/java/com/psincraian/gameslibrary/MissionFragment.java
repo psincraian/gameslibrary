@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -106,6 +107,7 @@ public class MissionFragment extends Fragment implements MainActivity.MainActivi
 
     @Override
     public void addPressed() {
+        Log.i(CLASS_NAME, "PRESSED");
         Intent intent = new Intent(getActivity(), AddMissionActivity.class);
         if (game != null)
             intent.putExtra(AddMissionActivity.INTENT_EXTRA_GAME_NAME, game.getTitle());

@@ -1,11 +1,8 @@
 package com.psincraian.gameslibrary;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.BoolRes;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,34 +13,31 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.psincraian.gameslibrary.adapters.CharactersAdapter;
+import com.psincraian.gameslibrary.adapters.ObjectAdapter;
 import com.psincraian.gameslibrary.models.Character;
 import com.psincraian.gameslibrary.models.Game;
+import com.psincraian.gameslibrary.models.Object;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class CharactersFragment extends Fragment implements MainActivity.MainActivityInterface, CharactersAdapter.OnCharacterClick, SortByDialog.OnItemClick {
+public class ObjectsFragment extends Fragment implements MainActivity.MainActivityInterface, ObjectAdapter.OnCharacterClick, SortByDialog.OnItemClick {
 
     public static final int ADD_CHARACTER_REQUEST = 1;
     public static final int EDIT_CHARACTER_REQUESt = 2;
     public static final String EXTRA_GAME = "extra_game_id";
 
-    private static final String CLASS_NAME = CharactersFragment.class.getName();
+    private static final String CLASS_NAME = ObjectsFragment.class.getName();
     private static final String SORT_BY_NAME = "Name";
     private static final String SORT_BY_LEVEL = "Level";
 
-    private CharactersAdapter charactersAdapter;
+    private ObjectAdapter charactersAdapter;
     private Game game;
     private int editPositionCharacter;
-    private Activity activity;
 
-    public CharactersFragment() {
+    public ObjectsFragment() {
         // Required empty public constructor
     }
 
@@ -56,7 +50,7 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View view = inflater.inflate(R.layout.fragment_characters, container, false);
+        View view = inflater.inflate(R.layout.fragment_objects, container, false);
 
         Bundle args = getArguments();
         if (args != null)
@@ -64,7 +58,7 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
         else
             game = null;
 
-        charactersAdapter = new CharactersAdapter(getCharactersNames(), this);
+        charactersAdapter = new ObjectAdapter(getCharactersNames(), this);
 
         RecyclerView listView = (RecyclerView) view.findViewById(R.id.listview_characters);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -72,12 +66,6 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
         listView.setAdapter(charactersAdapter);
 
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        activity = getActivity();
     }
 
     @Override
@@ -106,12 +94,12 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
 
         if (requestCode == ADD_CHARACTER_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
-                Character character = data.getParcelableExtra(AddCharactersActivity.INTENT_EXTRA_CHARACTER);
+                Object character = data.getParcelableExtra(AddObjectActivity.INTENT_EXTRA_CHARACTER);
                 charactersAdapter.add(character);
             }
         } else if (requestCode == EDIT_CHARACTER_REQUESt) {
             if (resultCode == Activity.RESULT_OK) {
-                Character character = data.getParcelableExtra(AddCharactersActivity.INTENT_EXTRA_CHARACTER);
+                Object character = data.getParcelableExtra(AddObjectActivity.INTENT_EXTRA_CHARACTER);
                 charactersAdapter.edit(character, editPositionCharacter);
             }
         }
@@ -119,34 +107,35 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
 
     @Override
     public void addPressed() {
-        Intent intent = new Intent(activity, AddCharactersActivity.class);
+        Intent intent = new Intent(getActivity(), AddObjectActivity.class);
+        Log.v(CLASS_NAME, "FLOAT PRESSED");
         if (game != null)
-            intent.putExtra(AddCharactersActivity.INTENT_EXTRA_GAME_NAME, game.getTitle());
+            intent.putExtra(AddObjectActivity.INTENT_EXTRA_GAME_NAME, game.getTitle());
         startActivityForResult(intent, ADD_CHARACTER_REQUEST);
     }
 
-    private List<Character> getCharactersNames() {
-        List<Character> characters;
+    private List<Object> getCharactersNames() {
+        List<Object> characters;
 
         if (game == null)
-            characters = Character.find(Character.class, "");
+            characters = Object.find(Object.class, "");
         else
-            characters = Character.find(Character.class, "game = ?",
+            characters = Object.find(Object.class, "game = ?",
                     Long.toString(game.getId()));
 
         return characters;
     }
 
     @Override
-    public void onCharacterClick(int position, Character character) {
+    public void onCharacterClick(int position, Object character) {
         editPositionCharacter = position;
-        Intent intent = new Intent(getActivity(), AddCharactersActivity.class);
-        intent.putExtra(AddCharactersActivity.INTENT_EXTRA_CHARACTER, character);
+        Intent intent = new Intent(getActivity(), AddObjectActivity.class);
+        intent.putExtra(AddObjectActivity.INTENT_EXTRA_CHARACTER, character);
         startActivityForResult(intent, EDIT_CHARACTER_REQUESt);
     }
 
     @Override
-    public void onCharacterLongClick(int position, Character character) {
+    public void onCharacterLongClick(int position, Object character) {
         character.delete();
         charactersAdapter.remove(position);
     }
@@ -155,10 +144,10 @@ public class CharactersFragment extends Fragment implements MainActivity.MainAct
     public void onItemClick(String item) {
         switch (item) {
             case SORT_BY_NAME:
-                charactersAdapter.orderBy(CharactersAdapter.ORDER_BY_NAME);
+                charactersAdapter.orderBy(ObjectAdapter.ORDER_BY_NAME);
                 break;
             case SORT_BY_LEVEL:
-                charactersAdapter.orderBy(CharactersAdapter.ORDER_BY_LEVEL);
+                charactersAdapter.orderBy(ObjectAdapter.ORDER_BY_LEVEL);
                 break;
         }
     }
